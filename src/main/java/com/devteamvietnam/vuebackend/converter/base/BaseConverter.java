@@ -1,4 +1,4 @@
-package com.devteamvietnam.vuebackend.converter;
+package com.devteamvietnam.vuebackend.converter.base;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.devteamvietnam.vuebackend.service;
+package com.devteamvietnam.vuebackend.service.base;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.devteamvietnam.vuebackend.service;
+package com.devteamvietnam.vuebackend.service.base;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +33,6 @@ public interface UserService extends CRUDOperationService<UserEntity, User> {
 
 	UserImageEntity saveUserImage(UserImageEntity img);
 	
-	void initDummyData() throws JsonProcessingException;
 
 	void init();
 	

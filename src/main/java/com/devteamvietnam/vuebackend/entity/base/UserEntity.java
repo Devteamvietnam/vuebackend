@@ -47,4 +47,11 @@ public class UserEntity {
 	@EqualsAndHashCode.Exclude 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserPreferenceEntity> preferences = new HashSet<UserPreferenceEntity>();
+	
+	public UserEntity(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
 }

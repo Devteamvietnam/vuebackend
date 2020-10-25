@@ -1,4 +1,4 @@
-package com.devteamvietnam.vuebackend.service.impl;
+package com.devteamvietnam.vuebackend.service.base.impl;
 
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devteamvietnam.vuebackend.config.GeneralConfig;
 import com.devteamvietnam.vuebackend.config.MailConfig;
-import com.devteamvietnam.vuebackend.converter.UserConverter;
+import com.devteamvietnam.vuebackend.converter.base.UserConverter;
 import com.devteamvietnam.vuebackend.dto.base.Mail;
 import com.devteamvietnam.vuebackend.dto.base.User;
 import com.devteamvietnam.vuebackend.dto.base.UserPin;
@@ -34,8 +34,8 @@ import com.devteamvietnam.vuebackend.repository.base.RoleRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserImageRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserPreferenceRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserRepository;
-import com.devteamvietnam.vuebackend.service.MailService;
-import com.devteamvietnam.vuebackend.service.UserService;
+import com.devteamvietnam.vuebackend.service.base.MailService;
+import com.devteamvietnam.vuebackend.service.base.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -316,36 +316,6 @@ public class UserServiceImpl implements UserService {
 		return preferenceRepo.save(en);
 	}
 	
-	@Override
-	public void initDummyData() throws JsonProcessingException {
-		
-		User dto = new User();
-		dto.setUsername("tester@devteamvietnam.com");
-		dto.setEmail("tester@devteamvietnam.com");
-		dto.setPassword("123456789");
-		dto.setFullname("User tester");
-		dto.setFirstname("tester");
-		dto.setLastname("User");
-		dto.setAddress("Tan Binh District");
-		dto.setBirthdate("10/4/1997");
-		dto.setCity("HCM");
-		dto.setGender("Male");
-		dto.setPhonenumber("0907777777");
-		dto.setJob("Manager");
-		dto.setRoles(new HashSet<String>(Arrays.asList("user")));
-		userIdAndPinMap.put(dto.getUsername(), new UserPin("999999", System.currentTimeMillis(), 1));
-		save(dto);
-		
-		//registered for the test
-		//UserControllerTest.testResetPassword_whenExistsAndPinValid_thenOk()
-		userIdAndPinMap.put("dummy@gmail.com", new UserPin("888888", System.currentTimeMillis(), 1));
-		
-		
-		//register user preference
-		UserEntity user1 = userRepo.findByUsername("ivanlucas@devteamvietnam.com");
-		UserEntity user2 = userRepo.findByUsername("tester@devteamvietnam.com");
-			
-	}
 
 	@Override
 	public void init() {
@@ -361,23 +331,5 @@ public class UserServiceImpl implements UserService {
 			role.setName(ERole.ROLE_MODERATOR);
 			roleRepo.save(role);
 		}
-		
-		User dto = new User();
-		dto.setUsername(config.USERNAME);
-		dto.setPassword(config.PASSWORD);
-		dto.setEmail("devteamvietnam@gmail.com");
-		dto.setFullname("Ivan Lucas");
-		dto.setFirstname("Ivan");
-		dto.setLastname("Lucas");
-		dto.setAddress("Tan Binh District");
-		dto.setBirthdate("22/06/1997");
-		dto.setCity("HCM");
-		dto.setGender("Male");
-		dto.setPhonenumber("0907777777");
-		dto.setJob("Manager");
-		dto.setRoles(new HashSet<String>(Arrays.asList("user", "admin")));
-		userIdAndPinMap.put(dto.getUsername(), new UserPin("999999", System.currentTimeMillis(), 1));
-		save(dto);
-
 	}
 }

@@ -1,4 +1,4 @@
-package com.devteamvietnam.vuebackend.service.impl;
+package com.devteamvietnam.vuebackend.service.base.impl;
 
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.devteamvietnam.vuebackend.dto.base.Mail;
-import com.devteamvietnam.vuebackend.service.MailService;
+import com.devteamvietnam.vuebackend.service.base.MailService;
 
 
 @Service("mailService")
