@@ -26,7 +26,13 @@
         <hibernate.version>5.4.10.Final</hibernate.version>
         <hibernatesearch.version>5.11.5.Final</hibernatesearch.version>
 	</properties>
-
+	<repositories>
+	    <repository>
+	        <id>jcenter-snapshots</id>
+	        <name>jcenter</name>
+	        <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+	    </repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
