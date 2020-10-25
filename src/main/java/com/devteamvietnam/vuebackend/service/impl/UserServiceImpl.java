@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devteamvietnam.vuebackend.config.GeneralConfig;
+import com.devteamvietnam.vuebackend.config.MailConfig;
 import com.devteamvietnam.vuebackend.converter.UserConverter;
 import com.devteamvietnam.vuebackend.dto.base.Mail;
 import com.devteamvietnam.vuebackend.dto.base.User;
