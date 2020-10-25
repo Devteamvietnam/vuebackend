@@ -316,36 +316,6 @@ public class UserServiceImpl implements UserService {
 		return preferenceRepo.save(en);
 	}
 	
-	@Override
-	public void initDummyData() throws JsonProcessingException {
-		
-		User dto = new User();
-		dto.setUsername("tester@devteamvietnam.com");
-		dto.setEmail("tester@devteamvietnam.com");
-		dto.setPassword("123456789");
-		dto.setFullname("User tester");
-		dto.setFirstname("tester");
-		dto.setLastname("User");
-		dto.setAddress("Tan Binh District");
-		dto.setBirthdate("10/4/1997");
-		dto.setCity("HCM");
-		dto.setGender("Male");
-		dto.setPhonenumber("0907777777");
-		dto.setJob("Manager");
-		dto.setRoles(new HashSet<String>(Arrays.asList("user")));
-		userIdAndPinMap.put(dto.getUsername(), new UserPin("999999", System.currentTimeMillis(), 1));
-		save(dto);
-		
-		//registered for the test
-		//UserControllerTest.testResetPassword_whenExistsAndPinValid_thenOk()
-		userIdAndPinMap.put("dummy@gmail.com", new UserPin("888888", System.currentTimeMillis(), 1));
-		
-		
-		//register user preference
-		UserEntity user1 = userRepo.findByUsername("ivanlucas@devteamvietnam.com");
-		UserEntity user2 = userRepo.findByUsername("tester@devteamvietnam.com");
-			
-	}
 
 	@Override
 	public void init() {
@@ -361,23 +331,5 @@ public class UserServiceImpl implements UserService {
 			role.setName(ERole.ROLE_MODERATOR);
 			roleRepo.save(role);
 		}
-		
-		User dto = new User();
-		dto.setUsername(config.USERNAME);
-		dto.setPassword(config.PASSWORD);
-		dto.setEmail("devteamvietnam@gmail.com");
-		dto.setFullname("Ivan Lucas");
-		dto.setFirstname("Ivan");
-		dto.setLastname("Lucas");
-		dto.setAddress("Tan Binh District");
-		dto.setBirthdate("22/06/1997");
-		dto.setCity("HCM");
-		dto.setGender("Male");
-		dto.setPhonenumber("0907777777");
-		dto.setJob("Manager");
-		dto.setRoles(new HashSet<String>(Arrays.asList("user", "admin")));
-		userIdAndPinMap.put(dto.getUsername(), new UserPin("999999", System.currentTimeMillis(), 1));
-		save(dto);
-
 	}
 }

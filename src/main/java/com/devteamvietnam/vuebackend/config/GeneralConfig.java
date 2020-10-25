@@ -24,12 +24,6 @@ public class GeneralConfig {
 	@Value("${app.dummyDataEnabled}")
 	public boolean DUMMY_DATA_ENABLED;
 	
-	@Value("${app.username}")
-	public String USERNAME;
-	
-	@Value("${app.password}")
-	public String PASSWORD;
-	
 	@Value("${app.bypassAuthentication:false}")
 	public boolean BYPASS_AUTHENTICATION;
 	

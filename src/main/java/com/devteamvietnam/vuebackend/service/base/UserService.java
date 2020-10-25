@@ -33,7 +33,6 @@ public interface UserService extends CRUDOperationService<UserEntity, User> {
 
 	UserImageEntity saveUserImage(UserImageEntity img);
 	
-	void initDummyData() throws JsonProcessingException;
 
 	void init();
 	

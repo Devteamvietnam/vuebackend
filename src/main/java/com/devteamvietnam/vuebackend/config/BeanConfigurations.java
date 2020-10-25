@@ -42,8 +42,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @ComponentScan("com.devteamvietnam")
 @PropertySources({
-    @PropertySource("classpath:application.properties"),
-    @PropertySource(value = "file:./application_override.properties", ignoreResourceNotFound = true)
+    @PropertySource("classpath:application.properties")
 })
 public class BeanConfigurations {
 

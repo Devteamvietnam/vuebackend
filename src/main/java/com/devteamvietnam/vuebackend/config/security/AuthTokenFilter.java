@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.devteamvietnam.vuebackend.config.GeneralConfig;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 	@Autowired
@@ -25,16 +24,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
-	
-	@Autowired
-	GeneralConfig config;
 
 	private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-	
 		try {
 			String jwt = parseJwt(request);
 			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -46,20 +41,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-			} else { //TODO: enable check config.isTesting here before we complete
-				
-				if(config.BYPASS_AUTHENTICATION) {
-					//fallback to useradmin for testing
-					UserDetails userDetails = userDetailsService.loadUserByUsername(config.USERNAME);
-					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-							userDetails, null, userDetails.getAuthorities());
-					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-					SecurityContextHolder.getContext().setAuthentication(authentication);
-				}
 			}
 		} catch (Exception e) {
-			logger.error("Cannot set user authentication: {}", e);
+			logger.error("Cannot set user authentication restorang: {}", e);
 		}
 
 		filterChain.doFilter(request, response);
@@ -74,4 +58,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
 		return null;
 	}
+
+
 }
