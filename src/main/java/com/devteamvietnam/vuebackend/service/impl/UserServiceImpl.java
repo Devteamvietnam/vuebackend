@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devteamvietnam.vuebackend.config.GeneralConfig;
+import com.devteamvietnam.vuebackend.converter.UserConverter;
 import com.devteamvietnam.vuebackend.dto.base.Mail;
 import com.devteamvietnam.vuebackend.dto.base.User;
 import com.devteamvietnam.vuebackend.dto.base.UserPin;
@@ -123,8 +124,8 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("name", fullName);
 		model.put("code", code.getPin());
-		model.put("location", "Lineus dev team");
-		model.put("signature", "https://lineus.net");
+		model.put("location", "Devteamvietnam");
+		model.put("signature", "https://devteamvietnam.com");
 		mail.setModel(model);
 
 		mailService.sendEmail(mail);
