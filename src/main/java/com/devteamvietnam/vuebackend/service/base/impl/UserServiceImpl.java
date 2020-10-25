@@ -1,4 +1,4 @@
-package com.devteamvietnam.vuebackend.service.impl;
+package com.devteamvietnam.vuebackend.service.base.impl;
 
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devteamvietnam.vuebackend.config.GeneralConfig;
 import com.devteamvietnam.vuebackend.config.MailConfig;
-import com.devteamvietnam.vuebackend.converter.UserConverter;
+import com.devteamvietnam.vuebackend.converter.base.UserConverter;
 import com.devteamvietnam.vuebackend.dto.base.Mail;
 import com.devteamvietnam.vuebackend.dto.base.User;
 import com.devteamvietnam.vuebackend.dto.base.UserPin;
@@ -34,8 +34,8 @@ import com.devteamvietnam.vuebackend.repository.base.RoleRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserImageRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserPreferenceRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserRepository;
-import com.devteamvietnam.vuebackend.service.MailService;
-import com.devteamvietnam.vuebackend.service.UserService;
+import com.devteamvietnam.vuebackend.service.base.MailService;
+import com.devteamvietnam.vuebackend.service.base.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

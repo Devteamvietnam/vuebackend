@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.devteamvietnam.vuebackend.converter.UserConverter;
+import com.devteamvietnam.vuebackend.converter.base.UserConverter;
 import com.devteamvietnam.vuebackend.dto.base.User;
 import com.devteamvietnam.vuebackend.entity.base.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
