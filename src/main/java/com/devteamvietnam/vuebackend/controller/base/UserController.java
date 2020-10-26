@@ -177,7 +177,8 @@ public class UserController {
 					.map(item -> item.getAuthority())
 					.collect(Collectors.toList());
 
-			return ResponseEntity.ok(new JwtResponse(jwt, "Bearer", userDetails.getUser()));
+			return ResponseEntity.ok(new JwtResponse(jwt, 
+							userDetails.getUsername(), userDetails.getFullname()));
 
 		} catch(AuthenticationException ex) {
 			throw AppExceptionCode.USER_LOGIN_FAILED_400_4003;
