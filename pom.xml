@@ -213,9 +213,7 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
-     
-  
-       
+        
       <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
@@ -232,17 +230,17 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.0-SNAPSHOT</version>
 		</dependency>
                 <dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-data-rest</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>io.springfox</groupId>

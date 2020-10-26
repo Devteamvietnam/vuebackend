@@ -14,7 +14,6 @@ import springfox.documentation.spring.data.rest.configuration.SpringDataRestConf
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-@SuppressWarnings("deprecation")
 @Configuration
 @EnableSwagger2WebMvc
 @Import(SpringDataRestConfiguration.class)
@@ -23,15 +22,15 @@ public class Swagger2Config {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
             .apis(RequestHandlerSelectors
-                .basePackage("com.devteamvietnam.vuebacked.controller"))
+                .basePackage("com.devteamvietnam.vuebackend.controller"))
             .paths(PathSelectors.regex("/.*"))
             .build().apiInfo(apiEndPointsInfo());
     }
     
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("Spring Boot REST API")
-            .description("VueBackend Management REST API")
-            .contact(new Contact("Ivan Lucas", "www.devteamvietnam.com", "devteamvietnam@gmail.com"))
+            .description("Devteam Management REST API")
+            .contact(new Contact("Ivan lucas", "https://devteamvietnam.com", "devteamvietnam@gmail.com"))
             .license("Apache 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
             .version("1.0.0")
