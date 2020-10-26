@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 	
 		
 		User u = new User();
-		u.setFullname("New User");
+		u.setFullname(username);
 		
 		UserEntity en = userRepo.findByUsername(username);
 		if(en!=null) {
@@ -338,17 +338,8 @@ public class UserServiceImpl implements UserService {
 		dto.setJob("Manager");
 		dto.setRoles(new HashSet<String>(Arrays.asList("user")));
 		userIdAndPinMap.put(dto.getUsername(), new UserPin("999999", System.currentTimeMillis(), 1));
-		save(dto);
+		save(dto);		
 		
-		//registered for the test
-		//UserControllerTest.testResetPassword_whenExistsAndPinValid_thenOk()
-		userIdAndPinMap.put("dummy@gmail.com", new UserPin("888888", System.currentTimeMillis(), 1));
-		
-		
-		//register user preference
-		UserEntity user1 = userRepo.findByUsername("ivanlucas@devteamvietnam.com");
-		UserEntity user2 = userRepo.findByUsername("tester@devteamvietnam.com");
-				
 	}
 
 	@Override
