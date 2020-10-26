@@ -9,6 +9,6 @@ import com.devteamvietnam.vuebackend.entity.base.ERole;
 import com.devteamvietnam.vuebackend.entity.base.UserRoleEntity;
 
 @Repository
-public interface RoleRepository extends JpaRepository<UserRoleEntity, String> {
+public interface RoleRepository extends JpaRepository<UserRoleEntity, Long> {
 	Optional<UserRoleEntity> findByName(ERole name);
 }
