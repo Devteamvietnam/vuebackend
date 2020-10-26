@@ -3,8 +3,11 @@ package com.devteamvietnam.vuebackend.controller.base;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -12,8 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,6 +51,7 @@ import com.devteamvietnam.vuebackend.exceptionhandler.AppExceptionCode;
 import com.devteamvietnam.vuebackend.response.JwtResponse;
 import com.devteamvietnam.vuebackend.response.MessageResponse;
 import com.devteamvietnam.vuebackend.service.base.UserService;
+
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -156,7 +162,7 @@ public class UserController {
 		
 	}
 		
-	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) throws AppException {
 		logger.info("Authenticating user : {}", loginRequest.getUsername());
 		try {
@@ -167,15 +173,12 @@ public class UserController {
 			String jwt = jwtUtils.generateJwtToken(authentication);
 			
 			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-			@SuppressWarnings("unused")
 			List<String> roles = userDetails.getAuthorities().stream()
 					.map(item -> item.getAuthority())
 					.collect(Collectors.toList());
 
-			return ResponseEntity.ok(new JwtResponse(jwt, 
-					 userDetails.getUsername()
-					 ));
-			
+			return ResponseEntity.ok(new JwtResponse(jwt, "Bearer", userDetails.getUser()));
+
 		} catch(AuthenticationException ex) {
 			throw AppExceptionCode.USER_LOGIN_FAILED_400_4003;
 		}
