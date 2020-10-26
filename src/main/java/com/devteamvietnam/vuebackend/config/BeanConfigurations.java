@@ -48,9 +48,9 @@ import freemarker.template.DefaultObjectWrapper;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan("kr.lineus")
+@ComponentScan("com.devteamvietnam")
 @PropertySources({
-    @PropertySource("classpath:application.properties"),
+    @PropertySource("classpath:application.yaml"),
     @PropertySource(value = "file:./application_override.properties", ignoreResourceNotFound = true)
 })
 public class BeanConfigurations {
