@@ -2,23 +2,31 @@ package com.devteamvietnam.vuebackend.entity.base;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
-import javax.persistence.*;
-
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 @Data
 public class UserEntity {
 
-	@Id
-	@GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-	private String id;
+    @Id
+    @GeneratedValue
+    private UUID id;
     private String username;
 	private String email;
 	private String password;
@@ -32,7 +40,7 @@ public class UserEntity {
 	private String job;
 	private String birthdate;
 	
-
+	
 	@EqualsAndHashCode.Exclude 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_role", 
@@ -47,11 +55,4 @@ public class UserEntity {
 	@EqualsAndHashCode.Exclude 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserPreferenceEntity> preferences = new HashSet<UserPreferenceEntity>();
-	
-	public UserEntity(String username, String email, String password) {
-		this.username = username;
-		this.email = email;
-		this.password = password;
-	}
-
 }

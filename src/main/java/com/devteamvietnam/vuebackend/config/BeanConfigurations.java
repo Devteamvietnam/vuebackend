@@ -5,12 +5,18 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.Location;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +28,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -33,16 +43,15 @@ import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.DefaultObjectWrapper;
 
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+
+
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.devteamvietnam")
+@ComponentScan("kr.lineus")
 @PropertySources({
-    @PropertySource("classpath:application.properties")
+    @PropertySource("classpath:application.properties"),
+    @PropertySource(value = "file:./application_override.properties", ignoreResourceNotFound = true)
 })
 public class BeanConfigurations {
 
@@ -50,7 +59,6 @@ public class BeanConfigurations {
 	private MailConfig config;
 	
     private static final Logger log = LoggerFactory.getLogger(BeanConfigurations.class);
-
 
     @Bean
     @Primary
@@ -153,5 +161,56 @@ public class BeanConfigurations {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper;
     }
- 
+    
+    @Value("${db.driver}")
+	private String DB_DRIVER;
+
+	@Value("${db.password}")
+	private String DB_PASSWORD;
+
+	@Value("${db.url}")
+	private String DB_URL;
+
+	@Value("${db.username}")
+	private String DB_USERNAME;
+
+	  
+	@Bean
+    public DataSource datasource() {
+
+        HikariConfig config = new HikariConfig();
+        config.setMaximumPoolSize(20);
+        config.setConnectionTimeout(300000);
+        config.setConnectionTimeout(120000);
+        config.setLeakDetectionThreshold(300000);
+
+        return DataSourceBuilder.create()
+          .driverClassName(DB_DRIVER)
+          .url(DB_URL)
+          .username(DB_USERNAME)
+          .password(DB_PASSWORD)
+          .build(); 
+    }
+	
+	@Bean(initMethod = "migrate")
+	@PostConstruct
+	Flyway flyway() {			
+		
+		String location = null;
+		if (DB_DRIVER.contains("h2")) {
+			location = "classpath:db/migration/h2";
+		} else if (DB_DRIVER.contains("postgres")) {
+			location = "classpath:db/migration/postgres";
+		} else {
+			throw new RuntimeException("Unsupported database driver found in configuration - " + DB_DRIVER);
+		}
+		System.out.println("set flyway location to : " + location);
+		
+		Flyway flyway = Flyway.configure().dataSource(datasource()).locations(new Location(location)).baselineOnMigrate(true).validateOnMigrate(true).load();
+		flyway.repair();
+		flyway.migrate();
+		return flyway;
+	}
+
+
 }

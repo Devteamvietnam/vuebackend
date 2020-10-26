@@ -1,6 +1,7 @@
 package com.devteamvietnam.vuebackend.service.base.impl;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,7 @@ import com.devteamvietnam.vuebackend.service.base.MailService;
 import com.devteamvietnam.vuebackend.service.base.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Service
 @Transactional
@@ -125,7 +129,7 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("name", fullName);
 		model.put("code", code.getPin());
-		model.put("location", "Devteamvietnam");
+		model.put("location", "DevteamVN");
 		model.put("signature", "https://devteamvietnam.com");
 		mail.setModel(model);
 
@@ -159,7 +163,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserEntity findOneById(String id) {
-		Optional<UserEntity> userEntity = userRepo.findById(id);
+		Optional<UserEntity> userEntity = userRepo.findById(UUID.fromString(id));
 		if(userEntity.isPresent()) {
 			return userEntity.get();
 		} else {
@@ -211,7 +215,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void delete(String id) {
-		userRepo.deleteById(id);
+		userRepo.deleteById(UUID.fromString(id));
 	}
 
 	@Override
@@ -295,7 +299,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<UserImageEntity> getUserImage(String fileId) {
-		return userImageRepo.findById(fileId);
+		return userImageRepo.findById(UUID.fromString(fileId));
 	}
 
 
@@ -305,17 +309,47 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public UserPreferenceEntity getUserPreference(String type, String userId){
-		return preferenceRepo.findByUserIdAndPreferenceType(userId, type);
+		return preferenceRepo.findByUserIdAndPreferenceType(UUID.fromString(userId), type);
 	}
 	
 	public List<UserPreferenceEntity> getUserPreference(String userId){
-		return preferenceRepo.findByUserId(userId);
+		return preferenceRepo.findByUserId(UUID.fromString(userId));
 	}
 	
 	public UserPreferenceEntity savePreference(UserPreferenceEntity en) {
 		return preferenceRepo.save(en);
 	}
 	
+	@Override
+	public void initDummyData() throws JsonProcessingException {
+		
+		User dto = new User();
+		dto.setUsername("tester@devteamvietnam.com");
+		dto.setEmail("tester@devteamvietnam.com");
+		dto.setPassword("devteam@tester");
+		dto.setFullname("User tester");
+		dto.setFirstname("tester");
+		dto.setLastname("User");
+		dto.setAddress("Tan Binh District");
+		dto.setBirthdate("22/06/1997");
+		dto.setCity("HCM");
+		dto.setGender("Male");
+		dto.setPhonenumber("0907777777");
+		dto.setJob("Manager");
+		dto.setRoles(new HashSet<String>(Arrays.asList("user")));
+		userIdAndPinMap.put(dto.getUsername(), new UserPin("999999", System.currentTimeMillis(), 1));
+		save(dto);
+		
+		//registered for the test
+		//UserControllerTest.testResetPassword_whenExistsAndPinValid_thenOk()
+		userIdAndPinMap.put("dummy@gmail.com", new UserPin("888888", System.currentTimeMillis(), 1));
+		
+		
+		//register user preference
+		UserEntity user1 = userRepo.findByUsername("ivanlucas@devteamvietnam.com");
+		UserEntity user2 = userRepo.findByUsername("tester@devteamvietnam.com");
+				
+	}
 
 	@Override
 	public void init() {
@@ -331,5 +365,24 @@ public class UserServiceImpl implements UserService {
 			role.setName(ERole.ROLE_MODERATOR);
 			roleRepo.save(role);
 		}
+		
+		User dto = new User();
+		dto.setUsername(config.USERNAME);
+		dto.setPassword(config.PASSWORD);
+		dto.setEmail("devteamvietnam@gmail.com");
+		dto.setFullname("User admin");
+		dto.setFirstname("admin");
+		dto.setLastname("User");
+		dto.setAddress("Tan Binh District");
+		dto.setBirthdate("22/06/1997");
+		dto.setCity("HCM");
+		dto.setGender("Male");
+		dto.setPhonenumber("0907777777");
+		dto.setJob("Manager");
+		dto.setRoles(new HashSet<String>(Arrays.asList("user", "admin")));
+		userIdAndPinMap.put(dto.getUsername(), new UserPin("999999", System.currentTimeMillis(), 1));
+		save(dto);
+
 	}
+
 }

@@ -7,7 +7,8 @@ import org.springframework.context.annotation.PropertySources;
 
 @Configuration
 @PropertySources({
-    @PropertySource("classpath:application.properties")
+    @PropertySource("classpath:application.properties"),
+    @PropertySource(value = "file:./application_override.properties", ignoreResourceNotFound = true)
 })
 public class MailConfig {
 	
@@ -32,6 +33,4 @@ public class MailConfig {
 	@Value("${email.subject}")
 	public String EMAIL_SUBJECT;
 
-	
-	
 }
