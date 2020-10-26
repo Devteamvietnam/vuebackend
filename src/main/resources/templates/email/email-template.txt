@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+ 
+<body>
+    <p>Dear ${name},</p>
+    <p>Your verification code is ${code}</b></p>
+    <p>The code is valid in 5p</p>
+    <p>Kind regards,</p>
+    <p>${signature}</p>
+    <p>${location}</p>
+    <p>@DevTeamVietNam</p>
+</body>
+ 
+</html>
