@@ -1,4 +1,4 @@
-package com.devteamvietnam.vuebackend.service;
+package com.devteamvietnam.vuebackend.service.base;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +9,8 @@ import com.devteamvietnam.vuebackend.entity.base.UserImageEntity;
 import com.devteamvietnam.vuebackend.entity.base.UserPreferenceEntity;
 import com.devteamvietnam.vuebackend.exceptionhandler.AppException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+
 
 public interface UserService extends CRUDOperationService<UserEntity, User> {
 	
@@ -22,11 +24,11 @@ public interface UserService extends CRUDOperationService<UserEntity, User> {
 	UserEntity find(String username, String password);
 	
 	UserEntity find(String username);
-	// register
+	
 	UserEntity register(User user, String pin) throws AppException;
-// reset
+
 	UserEntity resetPassword(String username, String pin, String password) throws AppException;
-	// checkpin
+	
 	boolean checkPIN(String username, String pin) throws AppException;
 	
 	Optional<UserImageEntity> getUserImage(String fileId);

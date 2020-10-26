@@ -42,7 +42,6 @@ public class User {
 	private String birthdate;
 	private String job;
 	private Set<String> roles = new HashSet<String>();
-	private String level;
 	private UserImage image;
 	private String pin;
 	private Set<UserPreference> preferences = new HashSet<UserPreference>();

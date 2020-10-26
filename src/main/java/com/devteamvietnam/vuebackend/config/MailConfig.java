@@ -33,6 +33,4 @@ public class MailConfig {
 	@Value("${email.subject}")
 	public String EMAIL_SUBJECT;
 
-	
-	
 }

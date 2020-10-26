@@ -1,6 +1,7 @@
-package com.devteamvietnam.vuebackend.service.impl;
+package com.devteamvietnam.vuebackend.service.base.impl;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,18 +9,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devteamvietnam.vuebackend.config.GeneralConfig;
 import com.devteamvietnam.vuebackend.config.MailConfig;
-import com.devteamvietnam.vuebackend.converter.UserConverter;
+import com.devteamvietnam.vuebackend.converter.base.UserConverter;
 import com.devteamvietnam.vuebackend.dto.base.Mail;
 import com.devteamvietnam.vuebackend.dto.base.User;
 import com.devteamvietnam.vuebackend.dto.base.UserPin;
@@ -34,10 +37,11 @@ import com.devteamvietnam.vuebackend.repository.base.RoleRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserImageRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserPreferenceRepository;
 import com.devteamvietnam.vuebackend.repository.base.UserRepository;
-import com.devteamvietnam.vuebackend.service.MailService;
-import com.devteamvietnam.vuebackend.service.UserService;
+import com.devteamvietnam.vuebackend.service.base.MailService;
+import com.devteamvietnam.vuebackend.service.base.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Service
 @Transactional
@@ -125,7 +129,7 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("name", fullName);
 		model.put("code", code.getPin());
-		model.put("location", "Devteamvietnam");
+		model.put("location", "DevteamVN");
 		model.put("signature", "https://devteamvietnam.com");
 		mail.setModel(model);
 
@@ -159,7 +163,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserEntity findOneById(String id) {
-		Optional<UserEntity> userEntity = userRepo.findById(id);
+		Optional<UserEntity> userEntity = userRepo.findById(UUID.fromString(id));
 		if(userEntity.isPresent()) {
 			return userEntity.get();
 		} else {
@@ -211,7 +215,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void delete(String id) {
-		userRepo.deleteById(id);
+		userRepo.deleteById(UUID.fromString(id));
 	}
 
 	@Override
@@ -295,7 +299,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<UserImageEntity> getUserImage(String fileId) {
-		return userImageRepo.findById(fileId);
+		return userImageRepo.findById(UUID.fromString(fileId));
 	}
 
 
@@ -305,11 +309,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public UserPreferenceEntity getUserPreference(String type, String userId){
-		return preferenceRepo.findByUserIdAndPreferenceType(userId, type);
+		return preferenceRepo.findByUserIdAndPreferenceType(UUID.fromString(userId), type);
 	}
 	
 	public List<UserPreferenceEntity> getUserPreference(String userId){
-		return preferenceRepo.findByUserId(userId);
+		return preferenceRepo.findByUserId(UUID.fromString(userId));
 	}
 	
 	public UserPreferenceEntity savePreference(UserPreferenceEntity en) {
@@ -322,12 +326,12 @@ public class UserServiceImpl implements UserService {
 		User dto = new User();
 		dto.setUsername("tester@devteamvietnam.com");
 		dto.setEmail("tester@devteamvietnam.com");
-		dto.setPassword("123456789");
+		dto.setPassword("devteam@tester");
 		dto.setFullname("User tester");
 		dto.setFirstname("tester");
 		dto.setLastname("User");
 		dto.setAddress("Tan Binh District");
-		dto.setBirthdate("10/4/1997");
+		dto.setBirthdate("22/06/1997");
 		dto.setCity("HCM");
 		dto.setGender("Male");
 		dto.setPhonenumber("0907777777");
@@ -344,7 +348,7 @@ public class UserServiceImpl implements UserService {
 		//register user preference
 		UserEntity user1 = userRepo.findByUsername("ivanlucas@devteamvietnam.com");
 		UserEntity user2 = userRepo.findByUsername("tester@devteamvietnam.com");
-			
+				
 	}
 
 	@Override
@@ -366,9 +370,9 @@ public class UserServiceImpl implements UserService {
 		dto.setUsername(config.USERNAME);
 		dto.setPassword(config.PASSWORD);
 		dto.setEmail("devteamvietnam@gmail.com");
-		dto.setFullname("Ivan Lucas");
-		dto.setFirstname("Ivan");
-		dto.setLastname("Lucas");
+		dto.setFullname("User admin");
+		dto.setFirstname("admin");
+		dto.setLastname("User");
 		dto.setAddress("Tan Binh District");
 		dto.setBirthdate("22/06/1997");
 		dto.setCity("HCM");
@@ -380,4 +384,5 @@ public class UserServiceImpl implements UserService {
 		save(dto);
 
 	}
+
 }
