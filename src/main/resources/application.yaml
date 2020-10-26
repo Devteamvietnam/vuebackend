@@ -1,0 +1,53 @@
+app:
+    bypassAuthentication: true
+    dummyDataEnabled: true
+    errorLevel: 1
+    jwtExpirationMs: 86400000
+    jwtSecret: DevteamSecEtkEy
+    password: 
+    username: 
+db:
+    driver: org.h2.Driver
+    password: 
+    url: jdbc:h2:mem:meowgidb;DB_CLOSE_DELAY=-1
+    username: sa
+email:
+    smtp:
+        from:
+            address: noreply@devteamvietnam.com
+            personalname: User register
+        host: smtp.gmail.com
+        password: yourpass
+        port: 587
+        username: devteamvietnam@gmail.com
+    subject: Verification code
+server:
+    port: 8080
+spring:
+    freemarker:
+        suffix: .ftl
+        template-loader-path: classpath:/templates
+    h2:
+        console:
+            enabled: true
+            path: /h2
+            settings:
+                web-allow-others: true
+    jackson:
+        serialization:
+            WRITE_DATES_AS_TIMESTAMPS: false
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.H2Dialect
+                enable_lazy_load_no_trans: true
+                format_sql: true
+                show_sql: true
+                temp:
+                    use_jdbc_metadata_defaults: false
+                use_sql_comments: true
+    servlet:
+        multipart:
+            enabled: true
+            max-file-size: 28MB
+            max-request-size: 28MB
